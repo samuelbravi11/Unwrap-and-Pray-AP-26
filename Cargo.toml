@@ -1,0 +1,28 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/*",
+]
+
+[package]
+name = "AP-project-UnwrapAndPray"
+version = "nightly"
+edition = "2026"
+
+[[bin]]
+name = "game"
+path = "src/main.rs"
+
+[workspace.dependencies]
+admiralty = { path = "crates/admiralty" }
+cartographer = { path = "crates/cartographer" }
+chart = { path = "crates/chart" }
+islands = { path = "crates/islands" }
+ships = { path = "crates/ship" }
+
+[dependencies]
+admiralty = { workspace = true }
+#cartographer = { workspace = true } // KEEP COMMENTED BECAUSE GUI DEPENDENCIES ARE REALLY HEAVY (~30GB)
+chart = { workspace = true }
+islands = { workspace = true }
+ships = { workspace = true }
