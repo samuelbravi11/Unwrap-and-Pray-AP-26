@@ -2,5 +2,5 @@
 #![forbid(clippy::pedantic)]
 
 fn main() {
-  
+    todo!();
 }
