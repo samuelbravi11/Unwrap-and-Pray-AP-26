@@ -1,17 +1,18 @@
+
 name: CI & Quality Enforcer
 
 on:
   push:
-    branches: [ "**" ]
+    branches: ["**"]
   pull_request:
-    branches: [ "**" ]
+    branches: ["**"]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   format:
-    name: Check Formatting 
+    name: Check Formatting
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -32,6 +33,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pkg-config libwayland-dev
+
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -49,6 +55,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pkg-config libwayland-dev
 
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
