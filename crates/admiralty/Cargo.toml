@@ -1,0 +1,4 @@
+[package]
+name = "admiralty"
+version.workspace = true
+edition.workspace = true

@@ -1,0 +1,4 @@
+[package]
+name = "chart"
+version.workspace = true
+edition.workspace = true

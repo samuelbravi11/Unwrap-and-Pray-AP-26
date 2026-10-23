@@ -1,0 +1,4 @@
+[package]
+name = "ships"
+version.workspace = true
+edition.workspace = true
