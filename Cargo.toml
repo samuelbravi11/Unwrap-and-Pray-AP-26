@@ -1,7 +1,13 @@
 [workspace]
-resolver = "2"
-members = ["crates/*"]
-
+resolver = "3"
+members = [
+    #"crates/cartographer"// KEEP COMMENTED BECAUSE GUI DEPENDENCIES ARE REALLY HEAVY (~30GB),
+    "crates/chart",
+    "crates/islands",
+    "crates/ships",
+    "crates/admiralty",
+    "crates/common_crates/bt_framework",
+]
 
 [workspace.package]
 name = "AP-project-UnwrapAndPray"
@@ -14,6 +20,7 @@ cartographer = { path = "crates/cartographer" }
 chart = { path = "crates/chart" }
 islands = { path = "crates/islands" }
 ships = { path = "crates/ships" }
+bt_framework = { path = "crates/common_crates/bt_framework" }
 
 [package]
 name = "main"
@@ -30,3 +37,4 @@ admiralty = { workspace = true }
 chart = { workspace = true }
 islands = { workspace = true }
 ships = { workspace = true }
+bt_framework = { workspace = true }
