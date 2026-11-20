@@ -59,13 +59,19 @@ impl<
 {
     /// Creates a new Brain with the given status and behaviour tree.
     ///
-    /// The first status **DOES NOT GET EVALUATED** and `last_evaluated_behaviour` is initialized to `None`.
     pub fn new(status: Status<T, U>, tree: S) -> Self {
-        Brain {
-            _marker: PhantomData,
-            status: status,
-            last_eval_behaviour: None,
-            behaviour_tree: tree,
+        let outcome = tree.outcome(&status);
+        let new_behaviour = tree.flow(&status, outcome);
+        match new_behaviour {
+            EvaluatedAction(actions) => Brain {
+                _marker: PhantomData,
+                status: status,
+                last_eval_behaviour: actions,
+                behaviour_tree: tree,
+            },
+            _ => {
+                unreachable!("Recieved a Result outcome in a BTFlow")
+            }
         }
     }
 
