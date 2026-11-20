@@ -1,8 +1,8 @@
-use crate::btree::outcomes::*;
 use crate::btree::node_traits::*;
+use crate::btree::outcomes::*;
 
-/// A BTEmpty is an action node that represents doing nothing. 
-/// 
+/// A BTEmpty is an action node that represents doing nothing.
+///
 /// Useful to terminate branches that have no action available.
 #[derive(Debug)]
 pub struct BTEmpty {}

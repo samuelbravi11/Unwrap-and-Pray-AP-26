@@ -4,8 +4,8 @@ use crate::btree::node_traits::*;
 use crate::btree::outcomes::*;
 use crate::status::Status;
 
-/// A BTCondition is a flow node that represents a conditional branch in the behaviour tree. 
-/// 
+/// A BTCondition is a flow node that represents a conditional branch in the behaviour tree.
+///
 /// It evaluates the condition and evaluates one of the two branches based on the outcome.
 #[derive(Debug)]
 pub struct BTCondition<

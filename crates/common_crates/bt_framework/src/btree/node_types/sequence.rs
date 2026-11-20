@@ -3,8 +3,8 @@ use crate::btree::outcomes::*;
 use crate::status::Status;
 use std::marker::PhantomData;
 
-/// A BTSequence is a flow node that represents a sequence of actions to be executed in order. It evaluates the first branch, then the second one. 
-/// 
+/// A BTSequence is a flow node that represents a sequence of actions to be executed in order. It evaluates the first branch, then the second one.
+///
 /// The outcome of the sequence is the combination of the outcomes of both branches.
 #[derive(Debug)]
 pub struct BTSequence<
@@ -48,9 +48,7 @@ impl<
                         });
                     }
                     _ => {
-                        unreachable!(
-                            "Recieved a Result outcome in a BTSequence, this should never happen"
-                        )
+                        unreachable!("Recieved a Result outcome in a BTSequence, this should never happen")
                     }
                 }
             }

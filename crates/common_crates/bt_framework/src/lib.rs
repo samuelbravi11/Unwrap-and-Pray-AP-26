@@ -28,10 +28,10 @@ use status::Status;
 // - Helper functions (create branch+node)
 // - Possible macro for tree creation
 
-/// A Brain is the main interface for interacting with a bt. 
-/// 
-/// It holds a reference to the status, the last evaluated behaviour, and the root node of the behaviour tree. 
-/// 
+/// A Brain is the main interface for interacting with a bt.
+///
+/// It holds a reference to the status, the last evaluated behaviour, and the root node of the behaviour tree.
+///
 /// The Brain is responsible for re-evaluating the behaviour tree based on changes in the status.
 pub struct Brain<
     'a,
