@@ -1,6 +1,8 @@
 use std::vec;
 
-use bt_framework::{btree::node_traits::BTBranch, btree::node_types::*, btree::outcomes::BTOutcome, status::Status, *};
+use bt_framework::{
+    btree::node_traits::BTBranch, btree::node_types::*, btree::outcomes::BTOutcome, generate_brain, status::Status, *,
+};
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 enum A {
@@ -142,4 +144,97 @@ fn prevent_condition_return_action() {
 
     let sh = SH { val_h: 0, val_h1: 0 };
     brain.update_status(Status::<SV, SH>::from_hard_states(sh));
+}
+
+#[test]
+fn macro_function() {
+    use A::*;
+    let mut brain_standard = Brain::new(
+        Status::<SV, SH>::default(),
+        BTCondition::new(
+            |s: &Status<SV, SH>| {
+                if s.getref_hard_states().val_h == 1 {
+                    BTOutcome::Success
+                } else {
+                    BTOutcome::Failure
+                }
+            },
+            BTBranch::new_flow(BTSequence::new(
+                BTBranch::new_action(BTAction::new(vec![A::OUT1])),
+                BTBranch::new_flow(BTCondition::new(
+                    |s: &Status<SV, SH>| {
+                        if s.getref_hard_states().val_h1 == 1 {
+                            BTOutcome::Success
+                        } else {
+                            BTOutcome::Failure
+                        }
+                    },
+                    BTBranch::new_action(BTAction::new(vec![A::OUT2])),
+                    BTBranch::new_action(BTEmpty::new()),
+                )),
+            )),
+            BTBranch::new_flow(BTSequence::new(
+                BTBranch::new_action(BTAction::new(vec![A::OUT3])),
+                BTBranch::new_action(BTAction::new(vec![A::OUT3])),
+            )),
+        ),
+    );
+
+    let first_cond = |s: &Status<SV, SH>| {
+        if s.getref_hard_states().val_h == 1 {
+            BTOutcome::<A>::Success
+        } else {
+            BTOutcome::<A>::Failure
+        }
+    };
+    let second_cond = |s: &Status<SV, SH>| {
+        if s.getref_hard_states().val_h1 == 1 {
+            BTOutcome::<A>::Success
+        } else {
+            BTOutcome::<A>::Failure
+        }
+    };
+    let mut brain = generate_brain!(
+        Status::<SV, SH>::default(),
+        IF{
+            first_cond,
+            SEQ{
+                ACT[OUT1],
+                IF{
+                    second_cond,
+                    ACT[OUT2],
+                    ACT[]
+                }
+            },
+            SEQ{
+                ACT[OUT3],
+                ACT[OUT3]
+            }
+        }
+    );
+
+    let mut sh = SH { val_h: 0, val_h1: 0 };
+    assert_eq!(
+        brain_standard.update_status(Status::<SV, SH>::from_hard_states(sh)),
+        brain.update_status(Status::<SV, SH>::from_hard_states(sh)),
+        "T1"
+    );
+    sh = SH { val_h: 0, val_h1: 1 };
+    assert_eq!(
+        brain_standard.update_status(Status::<SV, SH>::from_hard_states(sh)),
+        brain.update_status(Status::<SV, SH>::from_hard_states(sh)),
+        "T2"
+    );
+    sh = SH { val_h: 1, val_h1: 0 };
+    assert_eq!(
+        brain_standard.update_status(Status::<SV, SH>::from_hard_states(sh)),
+        brain.update_status(Status::<SV, SH>::from_hard_states(sh)),
+        "T3"
+    );
+    sh = SH { val_h: 1, val_h1: 1 };
+    assert_eq!(
+        brain_standard.update_status(Status::<SV, SH>::from_hard_states(sh)),
+        brain.update_status(Status::<SV, SH>::from_hard_states(sh)),
+        "T4"
+    );
 }

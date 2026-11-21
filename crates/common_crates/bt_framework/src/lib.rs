@@ -3,6 +3,7 @@
 //! Framework for creating behaviour trees, mainly aimed at medium sized NPC AIs for games.
 
 pub mod btree;
+pub mod generator_macro;
 pub mod status;
 
 use std::marker::PhantomData;

@@ -58,7 +58,7 @@ impl<
     Z: BTNode<'a, T, U, X>,
 > BTCondition<'a, T, U, X, F, S, Z>
 {
-    pub fn new(condition: F,success_branch: S, failure_branch: Z) -> Self {
+    pub fn new(condition: F, success_branch: S, failure_branch: Z) -> Self {
         BTCondition {
             _marker: PhantomData,
             success_branch,
